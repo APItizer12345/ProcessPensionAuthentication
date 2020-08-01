@@ -37,6 +37,8 @@ namespace ProcessPension.Controllers
                 bankServiceCharge = 500;
             else
                 bankServiceCharge = 550;
+
+
             ProcessPensionGetOutput infoToSend = new ProcessPensionGetOutput
             {
                 aadhar = client.aadharNumber,
@@ -61,16 +63,40 @@ namespace ProcessPension.Controllers
             return  infoToSend;
         }
 
+        [HttpPost]
+        public string PensionDisbursmentCall()
+        {
+            PensionDisbursementCall statusCode = new PensionDisbursementCall();
+            int status = statusCode.CallPensionDetail();
+            for(int i =0;i<3;i++)
+            {
+                if (status == 21)
+                    status = statusCode.CallPensionDetail();
+            }
+            if (status == 21)
+                return "Calculated Value Wrong";
+            else
+                return "Success";
+        }
 
-        
 
         public double CalculatePensionAmount(string aadhar)
         {
             PensionDetailCall getDetails = new PensionDetailCall();
+            int pensionType = getDetails.GetPensionerFamilyOrSelf(aadhar);
+            double pensionAmount;
             //int salary = getDetails.GetPensionerSalary(aadhar);
             //int allowances = getDetails.GetPensionerAllowances(aadhar);
 
-            double pensionAmount = (0.8 * getDetails.GetPensionerSalary(aadhar)) + getDetails.GetPensionerAllowances(aadhar);
+
+
+            if (pensionType == 1)
+                pensionAmount = (0.8 * getDetails.GetPensionerSalary(aadhar)) + getDetails.GetPensionerAllowances(aadhar);
+            else
+                pensionAmount = (0.5 * getDetails.GetPensionerSalary(aadhar)) + getDetails.GetPensionerAllowances(aadhar);
+
+
+
             if (getDetails.GetPensionerBankType(aadhar) == 1)
                 pensionAmount = pensionAmount + 500;
             else

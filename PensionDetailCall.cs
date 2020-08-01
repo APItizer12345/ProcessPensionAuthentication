@@ -62,5 +62,20 @@ namespace ProcessPension
             dynamic details = JObject.Parse(name);
             return details.bankType;
         }
+        public int GetPensionerSalary(string aadhar)
+        {
+            HttpResponseMessage response = CallPensionDetail(aadhar);
+            string name = response.Content.ReadAsStringAsync().Result;
+            dynamic details = JObject.Parse(name);
+            return details.salaryEarned;
+        }
+        public int GetPensionerAllowances(string aadhar)
+        {
+            HttpResponseMessage response = CallPensionDetail(aadhar);
+            string name = response.Content.ReadAsStringAsync().Result;
+            dynamic details = JObject.Parse(name);
+            return details.allowances;
+        }
+
     }
 }

@@ -40,7 +40,7 @@ namespace ProcessPension.Controllers
             ProcessPensionGetOutput infoToSend = new ProcessPensionGetOutput
             {
                 aadhar = client.aadharNumber,
-                pensionAmount = 4000,
+                pensionAmount = CalculatePensionAmount(client.aadharNumber),
                 serviceCharge = bankServiceCharge
             };
 
@@ -60,12 +60,35 @@ namespace ProcessPension.Controllers
             
             return  infoToSend;
         }
+
+
+        
+
+        public double CalculatePensionAmount(string aadhar)
+        {
+            PensionDetailCall getDetails = new PensionDetailCall();
+            //int salary = getDetails.GetPensionerSalary(aadhar);
+            //int allowances = getDetails.GetPensionerAllowances(aadhar);
+
+            double pensionAmount = (0.8 * getDetails.GetPensionerSalary(aadhar)) + getDetails.GetPensionerAllowances(aadhar);
+            if (getDetails.GetPensionerBankType(aadhar) == 1)
+                pensionAmount = pensionAmount + 500;
+            else
+                pensionAmount = pensionAmount + 550;
+
+            return pensionAmount;
+
+        }
+
     }
+
+
+    
 
      public class ProcessPensionGetOutput
     {
         public string aadhar { get; set; }
-        public int pensionAmount { get; set; }
+        public double pensionAmount { get; set; }
         public int serviceCharge { get; set; }
     }
 }

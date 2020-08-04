@@ -10,6 +10,8 @@ namespace ProcessPension
         public string clientName { get; set; }
         public string aadharNumber { get; set; }
         public string panDetail{ get; set; }
+
+        public DateTime dateOfBirth { get; set; }
         public int family { get; set; }
 
     }

@@ -15,11 +15,12 @@ namespace ProcessPension
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://localhost:44312/");
+                var data = new StringContent("application/json");
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 try
                 {
-                    response = client.GetAsync("api/PensionDisbursement").Result;
+                    response = client.PostAsync("api/PensionDisbursement",data).Result;
                 }
                 catch(Exception e)
                 { response=null;}

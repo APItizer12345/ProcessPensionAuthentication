@@ -39,6 +39,11 @@ namespace ProcessPension
         {
             ClientInput res = new ClientInput();
             HttpResponseMessage response = CallPensionDetail(aadhar);
+            if (response == null)
+            {
+                res = null;
+                return res;
+            }
             string responseValue = response.Content.ReadAsStringAsync().Result;
             res = JsonConvert.DeserializeObject<ClientInput>(responseValue);
 
@@ -50,6 +55,11 @@ namespace ProcessPension
         {
             ValueforCalCulation res = new ValueforCalCulation();
             HttpResponseMessage response = CallPensionDetail(aadhar);
+            if (response == null)
+            {
+                res = null;
+                return res;
+            }
             string responseValue = response.Content.ReadAsStringAsync().Result;
             res = JsonConvert.DeserializeObject<ValueforCalCulation>(responseValue);
             return res;

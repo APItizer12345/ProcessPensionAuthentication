@@ -47,7 +47,7 @@ namespace ProcessPension.Controllers
                 mvc.message = new HttpResponseMessage(HttpStatusCode.NoContent);
                 mvc.bankType = 1;
                 mvc.aadharNumber = "***";
-                mvc.status = 21;
+                mvc.status = 20;
 
                 return mvc;
             }
@@ -149,7 +149,7 @@ namespace ProcessPension.Controllers
                 statusCode = Int32.Parse(status);
             }
             else
-                statusCode = 21;
+                statusCode = 20;
 
             mvcClientOutput.status = statusCode;
 
